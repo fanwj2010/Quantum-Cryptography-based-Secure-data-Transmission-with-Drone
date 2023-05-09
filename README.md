@@ -1,2 +1,3 @@
 # Quantum-Cryptography-based-Secure-data-Transmission-with-Drone
-The repository is just about the quantum encrpytion part of this project.
+Now, The quantum encryption aspect of this project is the sole focus of this repository.
+The image processing part will be updated 3 days later.
