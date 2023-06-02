@@ -56,14 +56,24 @@ class LoginWin:
         global listofBits
         global listofQubits
         try:
-            #需要默认值
             num_of_qubits = int(self.ui.qubitsNum.text().strip()) or 100
             listofBasis = list()
             listofBits = list()
             listofQubits = list()
+            time1 = time.time()
+            print(time.time())
             listofBasis = qkd.generateRandomBasis(num_of_qubits)
+            # for i in listofBasis:
+            #     print(i)
             listofBits = qkd.generateRandomBits(num_of_qubits)
+            # for i in listofBits:
+            #     print(i)
             listofQubits = qkd.generateQubits(listofBasis, listofBits)
+            # print(listofQubits)
+            for i in listofQubits:
+                print(i)
+            time2 = time.time()
+            print("生成qkd传输密钥的时间是", time2 - time1)
             self.ui.BasePlainTextEdit.setPlainText(qkd.listtoString(qkd.listofBasistoSymbol(listofBasis)))
             self.ui.BitPlainTextEdit.setPlainText(qkd.listtoString(qkd.listofBitstoSymbol(listofBits)))
             self.ui.QubitPlainTextEdit.setPlainText(qkd.listtoString(qkd.listofQubitstoSymbol(listofQubits)))
@@ -75,14 +85,6 @@ class LoginWin:
             # self.dlg = MyDialog()
             # self.dlg.exec_()
             return
-        # except ValueError:
-        #     message_error = QMessageBox(QMessageBox.Warning, 'Warning', 'input error')
-        #     message_error.exec_()
-
-        # 若-222/33333 不是overflow
-        # except OverflowError:
-        #     message_error = QMessageBox(QMessageBox.Warning, 'Warning', 'input error')
-        #     message_error.exec_()
 
     def send_qubits(self):
         global listofBasis
@@ -101,10 +103,10 @@ class LoginWin:
 
     def qubitsSender(self, listofQubits, listofBasis, port):
         sender = socket(AF_INET, SOCK_STREAM)
-        # 超过这个范围？
         send_buf = 4096
         blocksize = 1024 * 1024 * 3  # blocksize:3MB
         try:
+
             sender.bind(('', port))
             sender.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
             # 设置超时时间 异常处理
@@ -113,7 +115,8 @@ class LoginWin:
             print('waiting for conn')
             conn, addr = sender.accept()
             # print(conn)
-
+            time3 = time.time()
+            print("开始分配")
             # print("num_of_qubits\n", str(num_of_qubits))
             conn.sendall(str(num_of_qubits).encode())
             conn.recv(1024)  # "num received"
@@ -137,9 +140,11 @@ class LoginWin:
                 else:
                     listofRecvBasis.append(1)
             prin_res = qkd.listtoString(qkd.listofBasistoSymbol(listofRecvBasis))
+            time4 = time.time()
+            print("结束时间是", time4 - time3)
             self.ui.plainTextEdit_4.setPlainText(prin_res)
             res_ls = []
-            print("received basis is:", prin_res)
+            # print("received basis is:", prin_res)
             print("will transmit photo")
             # SendTh = threading.Thread(target=self.dataSender, args=(listofQubits, listofBasis, port,))
             time.sleep(1)
@@ -155,7 +160,6 @@ class LoginWin:
         time.sleep(8)
         try:
             s = socket(AF_INET, SOCK_STREAM)
-            # 改成服务器IP
             s.connect(('192.168.56.1', 6666))
             print("start send")
         except error as msg:
@@ -184,13 +188,8 @@ class LoginWin:
             s.close()
             break
 
-
-
     def open_new_window(self):
-        # 实例化一个对话框类
         self.dlg = MyDialog()
-        # 显示对话框，代码阻塞在这里，
-        # 等待对话框关闭后，才能继续往后执行
         self.dlg.exec_()
 
 

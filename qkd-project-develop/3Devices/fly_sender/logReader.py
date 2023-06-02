@@ -57,7 +57,7 @@ def readLog(filename):
                 dataList.append(item)
 
 
-filename = 'data/asdfg.txt'
+filename = 'data/2021-05-05_17-09-07.txt'
 dataList = []
 readLog(filename)
 for item in dataList:

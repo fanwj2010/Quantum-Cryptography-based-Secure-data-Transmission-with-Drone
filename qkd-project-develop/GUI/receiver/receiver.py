@@ -13,7 +13,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import Signal,QObject
 import qkd
-
+from Exp.receiver import receiver
 
 main_win = None
 
@@ -79,13 +79,11 @@ class LoginWin:
         self.ui.lenLineEdit.setText(str(num_of_qubits))
         # print("num", num_of_qubits)
         receiver.sendall("num received".encode())
-        qubitStr=receiver.recv(4096*1024).decode()
+        qubitStr = receiver.recv(4096*1024).decode()
         print(qubitStr)
         listofQubits=list()
-        # print(len(qubitStr))
-        for i in range(int(len(qubitStr)/2)):
+        print(len(qubitStr))
             listofQubits.append(qkd.Qubit(qubitStr[2*i], qubitStr[2*i+1]))
-
         print(qkd.listofQubitstoSymbol(listofQubits))
 
 
@@ -112,7 +110,7 @@ class LoginWin:
                 basisStr += "1"
         receiver.sendall(basisStr.encode())
 
-        comparelist = qkd.compareBasis(listofBasis,listofRecvBasis)
+        comparelist = qkd.compareBasis(listofBasis, listofRecvBasis)
         print("com", len(comparelist))
         # finalKey=list()
         for i in range(len(comparelist)):
@@ -124,7 +122,6 @@ class LoginWin:
         print("photo received")
         SendTh = threading.Thread(target=self.socket_service, args=(listofQubits, listofBasis, port,))
         SendTh.start()
-
 
     def socket_service(self, listofQubits, listofBasis, port):
         print("photo will receive")
@@ -148,7 +145,6 @@ class LoginWin:
 
     def deal_data(self, sock, addr):
         print("Accept connection from {0}".format(addr))
-
         while True:
             fileinfo_size = struct.calcsize('128sl')
             buf = sock.recv(fileinfo_size)

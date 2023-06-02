@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-
+'''
+@Project ：qkd-project
+@File    ：flySend.py
+@Author  ：orionplan
+@Date    ：2021/5/1
+'''
 import datetime
 import hashlib
 import json, struct

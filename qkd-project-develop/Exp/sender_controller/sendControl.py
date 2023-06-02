@@ -15,7 +15,7 @@ from PySide2.QtUiTools import QUiLoader
 
 import protocol
 import qkd
-# The core part of QKD has been omited.
+
 main_win = None
 
 dirname = os.path.dirname(PySide2.__file__)
@@ -255,6 +255,7 @@ class MyDialog(QtWidgets.QDialog):
 
 
 if __name__ == '__main__':
+    print(datetime.datetime)
     if not os.path.exists('./data'):
         os.mkdir('./data')
     app = QtWidgets.QApplication(sys.argv)
