@@ -1,2 +1,2 @@
 # Quantum-Cryptography-based-Secure-data-Transmission-with-Drone
-The repository is a demo of this project. 
+This GitHub repository contains the initial code for this project.
