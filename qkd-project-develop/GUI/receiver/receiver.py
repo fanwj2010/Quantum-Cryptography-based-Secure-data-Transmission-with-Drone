@@ -83,7 +83,7 @@ class LoginWin:
         print(qubitStr)
         listofQubits=list()
         print(len(qubitStr))
-            listofQubits.append(qkd.Qubit(qubitStr[2*i], qubitStr[2*i+1]))
+        listofQubits.append(qkd.Qubit(qubitStr[2*i], qubitStr[2*i+1]))
         print(qkd.listofQubitstoSymbol(listofQubits))
 
 
